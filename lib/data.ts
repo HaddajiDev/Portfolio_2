@@ -331,5 +331,5 @@ export interface SkillsData {
 
 export const skills: SkillsData = {
   web: ["JavaScript", "TypeScript", "React", "Next.js", "Node.js", "HTML/CSS", "Tailwind CSS", "GraphQL", "REST APIs"],
-  game: ["Unity", "C#", "Game Design", "3D Modeling", "Level Design", "Animation", "Physics", "AI Programming"],
+  game: ["Unity", "C#", "Game Design", "Godot", "Level Design", "Animation", "Physics", "GDScript"],
 }
