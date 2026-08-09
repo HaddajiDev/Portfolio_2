@@ -5,6 +5,8 @@ export interface Project {
   fullDescription?: string
   tags: string[]
   images?: string[]
+  /** Selects the project's bespoke, image-free card art (see components/showcase-cards.tsx). */
+  cardStyle?: "terminal" | "geometry"
   links?: {
     github?: string
     live?: string
@@ -14,94 +16,95 @@ export interface Project {
 export interface ProjectsData {
   web: Project[]
   game: Project[]
+  other: Project[]
 }
 
 export const projects: ProjectsData = {
   web: [
-    {
-      title: "Agency app",
-      slug: "agency-app",
-      description: "A modern agency application",
-      fullDescription: "A responsive agency website with modern features and animations",
-      tags: ["React", "Next.js", "Tailwind"],
-      images: ["https://haddajidev.vercel.app/_next/image?url=%2F_next%2Fstatic%2Fmedia%2FAgence.3123c6fb.png&w=3840&q=75"],
-      links: {
-        live: "https://agencyahmed.vercel.app/",
-        github: "https://github.com/HaddajiDev/Agency_Front/"
-      }
-    },
-    {
-      title: "Weather app",
-      slug: "weather-app",
-      description: "Real-time weather forecasting application",
-      fullDescription: "A weather application with real-time updates and location-based forecasting",
-      tags: ["React", "API Integration"],
-      images: ["https://haddajidev.vercel.app/_next/image?url=%2F_next%2Fstatic%2Fmedia%2FWeather.68adc3ef.png&w=1920&q=75"],
-      links: {
-        live: "https://weather-app-five-ruby-57.vercel.app/",
-        github: "https://github.com/HaddajiDev/Weather_App/"
-      }
-    },
-    {
-      title: "E-commerce app",
-      slug: "e-commerce-app",
-      description: "Full-stack e-commerce platform",
-      fullDescription: "Complete e-commerce solution with product management and shopping cart",
-      tags: ["React", "Node.js", "MongoDB"],
-      images: ["https://haddajidev.vercel.app/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fstore.0ff87c5a.png&w=1920&q=75"],
-      links: {
-        live: "https://ecommerce-front-pi-blue.vercel.app/",
-        github: "https://github.com/HaddajiDev/Ecommerce_Project/"
-      }
-    },
-    {
-      title: "Savage Blog",
-      slug: "savage-blog",
-      description: "Modern blogging platform",
-      fullDescription: "Feature-rich blog and content management",
-      tags: ["Next.js", "CMS"],
-      images: ["https://haddajidev.vercel.app/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fblog.a0eb0f15.png&w=1920&q=75"],
-      links: {
-        live: "https://savageblog.vercel.app/",
-        github: "https://github.com/HaddajiDev/SavageBlog/"
-      }
-    },
-    {
-      title: "Savage Talk",
-      slug: "savage-talk",
-      description: "Real-time chat application",
-      fullDescription: "Interactive messaging platform with real-time communication",
-      tags: ["WebSocket", "React"],
-      images: ["https://haddajidev.vercel.app/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Ftalk.d1f49c4f.png&w=1920&q=75"],
-      links: {
-        live: "https://savage-talk.vercel.app/",
-        github: "https://github.com/HaddajiDev/Savage-Talk/"
-      }
-    },
+    // {
+    //   title: "Agency app",
+    //   slug: "agency-app",
+    //   description: "A modern agency application",
+    //   fullDescription: "A responsive agency website with modern features and animations",
+    //   tags: ["React", "Next.js", "Tailwind"],
+    //   images: ["https://haddajidev.vercel.app/_next/image?url=%2F_next%2Fstatic%2Fmedia%2FAgence.3123c6fb.png&w=3840&q=75"],
+    //   links: {
+    //     live: "https://agencyahmed.vercel.app/",
+    //     github: "https://github.com/HaddajiDev/Agency_Front/"
+    //   }
+    // },
+    // {
+    //   title: "Weather app",
+    //   slug: "weather-app",
+    //   description: "Real-time weather forecasting application",
+    //   fullDescription: "A weather application with real-time updates and location-based forecasting",
+    //   tags: ["React", "API Integration"],
+    //   images: ["https://haddajidev.vercel.app/_next/image?url=%2F_next%2Fstatic%2Fmedia%2FWeather.68adc3ef.png&w=1920&q=75"],
+    //   links: {
+    //     live: "https://weather-app-five-ruby-57.vercel.app/",
+    //     github: "https://github.com/HaddajiDev/Weather_App/"
+    //   }
+    // },
+    // {
+    //   title: "E-commerce app",
+    //   slug: "e-commerce-app",
+    //   description: "Full-stack e-commerce platform",
+    //   fullDescription: "Complete e-commerce solution with product management and shopping cart",
+    //   tags: ["React", "Node.js", "MongoDB"],
+    //   images: ["https://haddajidev.vercel.app/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fstore.0ff87c5a.png&w=1920&q=75"],
+    //   links: {
+    //     live: "https://ecommerce-front-pi-blue.vercel.app/",
+    //     github: "https://github.com/HaddajiDev/Ecommerce_Project/"
+    //   }
+    // },
+    // {
+    //   title: "Savage Blog",
+    //   slug: "savage-blog",
+    //   description: "Modern blogging platform",
+    //   fullDescription: "Feature-rich blog and content management",
+    //   tags: ["Next.js", "CMS"],
+    //   images: ["https://haddajidev.vercel.app/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fblog.a0eb0f15.png&w=1920&q=75"],
+    //   links: {
+    //     live: "https://savageblog.vercel.app/",
+    //     github: "https://github.com/HaddajiDev/SavageBlog/"
+    //   }
+    // },
+    // {
+    //   title: "Savage Talk",
+    //   slug: "savage-talk",
+    //   description: "Real-time chat application",
+    //   fullDescription: "Interactive messaging platform with real-time communication",
+    //   tags: ["WebSocket", "React"],
+    //   images: ["https://haddajidev.vercel.app/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Ftalk.d1f49c4f.png&w=1920&q=75"],
+    //   links: {
+    //     live: "https://savage-talk.vercel.app/",
+    //     github: "https://github.com/HaddajiDev/Savage-Talk/"
+    //   }
+    // },
     {
       title: "Savage Files",
       slug: "savage-files",
       description: "File management system",
       fullDescription: "Cloud-based file storage and management solution",
       tags: ["React", "Cloud Storage"],
-      images: ["https://haddajidev.vercel.app/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Ffiles.d1100335.png&w=1920&q=75"],
+      images: ["/savage-files.png"],
       links: {
         live: "https://savage-files.vercel.app",
         github: "https://github.com/HaddajiDev/Savage-Files"
       }
     },
-    {
-      title: "Savage AI",
-      slug: "savage-ai",
-      description: "AI-powered application",
-      fullDescription: "Artificial intelligence integration platform with various AI features",
-      tags: ["AI", "Machine Learning"],
-      images: ["https://haddajidev.vercel.app/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fai.4a434127.png&w=1920&q=75"],
-      links: {
-        live: "https://savageai.vercel.app",
-        github: "https://github.com/HaddajiDev/Savage-AI"
-      }
-    },
+    // {
+    //   title: "Savage AI",
+    //   slug: "savage-ai",
+    //   description: "AI-powered application",
+    //   fullDescription: "Artificial intelligence integration platform with various AI features",
+    //   tags: ["AI", "Machine Learning"],
+    //   images: ["https://haddajidev.vercel.app/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fai.4a434127.png&w=1920&q=75"],
+    //   links: {
+    //     live: "https://savageai.vercel.app",
+    //     github: "https://github.com/HaddajiDev/Savage-AI"
+    //   }
+    // },
     {
       title: "Food Rescue",
       slug: "food-rescue",
@@ -112,6 +115,29 @@ export const projects: ProjectsData = {
       links: {
         live: "https://foodrescue-1.vercel.app/",
         github: "https://github.com/HaddajiDev/Food-Rescue"
+      }
+    },
+    {
+      title: "Pyx",
+      slug: "pyx",
+      description: "Encrypted peer-to-peer LAN file transfer app",
+      fullDescription: "A peer-to-peer file transfer desktop app built with Tauri and Rust. Pyx discovers nearby devices on the local network via mDNS and streams files or entire folders directly between them over encrypted QUIC connections, at full LAN speed with no cloud involved.",
+      tags: ["Tauri", "Rust", "React", "TypeScript", "QUIC"],
+      images: ["/pyx.png"],
+      links: {
+        live: "https://pyx-app.vercel.app",
+        github: "https://github.com/HaddajiDev/Pyx"
+      }
+    },
+    {
+      title: "Pirate's Dual Art Community",
+      slug: "pirates-dual-art-community",
+      description: "Pixel art battle community site for Pirate's Dual",
+      fullDescription: "A community platform built around the Pirate's Dual game where artists submit pixel art ships, flags, and sails, vote and comment on each other's work, and compete in tournaments with prize pools.",
+      tags: ["Community", "Web", "Pixel Art"],
+      images: ["/artist.png"],
+      links: {
+        live: "https://art.piratesdual.com/"
       }
     }
   ],
@@ -270,6 +296,30 @@ export const projects: ProjectsData = {
       links: {
         live: "https://haddajidev.itch.io/pirates-dual",
         github: "https://github.com/HaddajiDev/Pirate-s-Dual"
+      }
+    }
+  ],
+  other: [
+    {
+      title: "Tawla",
+      slug: "tawla-lang",
+      description: "A statically-typed, object-oriented programming language",
+      fullDescription: "Tawla is a statically-typed, object-oriented programming language built from scratch in Python, with its own compiler (tawlac) that compiles directly to machine code via LLVM (using llvmlite). It supports classes, inheritance, interfaces, generics, exception handling, and standard libraries for HTTP, SQLite, JSON, file I/O, and cryptography.",
+      tags: ["Python", "LLVM", "Compilers", "Language Design"],
+      cardStyle: "terminal",
+      links: {
+        github: "https://github.com/HaddajiDev/tawla-lang"
+      }
+    },
+    {
+      title: "Lowkey Solver",
+      slug: "lowkey-solver",
+      description: "AI math solver that explains every step like a friend, not a textbook",
+      fullDescription: "Stuck on a math problem? Lowkey Solver gets it. Type it, snap a photo, or upload a worksheet and get a clear, step-by-step solution explained in a tone you pick — Gen Z, Casual, Formal, or Explain Like I'm 12. Covers algebra, calculus, geometry, trigonometry, statistics, pre-calc, and more, with every step broken into what was done, why it works, and the actual math rendered cleanly. Not just an answer machine.",
+      tags: ["Android", "AI", "Education", "Math"],
+      cardStyle: "geometry",
+      links: {
+        live: "https://play.google.com/store/apps/details?id=com.lowkey.solver"
       }
     }
   ]

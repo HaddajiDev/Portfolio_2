@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react"
 import { motion, useInView, useAnimation } from "framer-motion"
-import { ArrowDown, Code, Gamepad2, Github, Linkedin, Mail } from "lucide-react"
+import { ArrowDown, Code, Gamepad2, Terminal, Github, Linkedin, Mail } from "lucide-react"
 import Link from "next/link"
 import { projects, personalInfo, skills } from "@/lib/data"
 import { useCursor } from "@/hooks/use-cursor"
@@ -14,6 +14,7 @@ import Beams from "@/components/Beams"
 import Threads from '@/components/Threads';
 import Particles from "@/components/particales"
 import TiltedCard from "@/components/TiltedCard"
+import { ShowcaseCard } from "@/components/showcase-cards"
 
 export default function Portfolio() {
   useCursor()
@@ -396,6 +397,9 @@ function ProjectCard({ project, type, index } : any) {
       transition={{ duration: 0.3, delay: 0.1 }}
     >
       <Link href={`/projects/${type}/${project.slug}`}>
+      {type === "other" ? (
+        <ShowcaseCard project={project} />
+      ) : (
       <TiltedCard
         imageSrc={project.images?.[0] || `/placeholder.svg?height=240&width=400`}
         altText={`${project.title} preview`}
@@ -439,6 +443,7 @@ function ProjectCard({ project, type, index } : any) {
           </div>
         }
       />
+      )}
       </Link>
     </motion.div>
   );
@@ -516,6 +521,28 @@ function ProjectsSection() {
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
               {projects.game.map((project, index) => (
                 <ProjectCard key={project.slug} project={project} type="game" index={index} />
+              ))}
+            </div>
+          </div>
+
+          <div>
+            <motion.div
+              variants={{
+                hidden: { opacity: 0 },
+                visible: { opacity: 1 },
+              }}
+              initial="hidden"
+              animate={controls}
+              transition={{ duration: 0.1}}
+              className="flex items-center gap-3 mb-8"
+            >
+              <Terminal className="w-6 h-6 text-purple-400" />
+              <h3 className="text-2xl font-semibold">Other Projects</h3>
+            </motion.div>
+
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {projects.other.map((project, index) => (
+                <ProjectCard key={project.slug} project={project} type="other" index={index} />
               ))}
             </div>
           </div>

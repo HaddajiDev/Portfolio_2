@@ -2,22 +2,10 @@
 
 import { useEffect, useState } from "react"
 import { useParams, useRouter } from "next/navigation"
-import { ArrowLeft, Code, Gamepad2, Github, ExternalLink } from "lucide-react"
+import { ArrowLeft, Code, Gamepad2, Terminal, Github, ExternalLink, SquareRadical } from "lucide-react"
 import Link from "next/link"
-import { projects } from "@/lib/data"
-
-export interface Project {
-  title: string
-  slug: string
-  description: string
-  fullDescription?: string
-  tags: string[]
-  images?: string[]
-  links?: {
-    github?: string
-    live?: string
-  }
-}
+import { projects, type Project } from "@/lib/data"
+import { ShowcaseArt } from "@/components/showcase-cards"
 
 export default function ProjectDetails() {
   const params = useParams()
@@ -36,6 +24,8 @@ export default function ProjectDetails() {
         foundProject = projects.web.find((p) => p.slug === slug)
       } else if (type === "game") {
         foundProject = projects.game.find((p) => p.slug === slug)
+      } else if (type === "other") {
+        foundProject = projects.other.find((p) => p.slug === slug)
       }
 
       if (foundProject) {
@@ -68,10 +58,19 @@ export default function ProjectDetails() {
     <div className="min-h-screen bg-gray-950 text-gray-100">
       <div className="relative h-[40vh] overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-r from-purple-900/30 to-gray-900/30"></div>
-        {project?.images?.[0] && (
+        {project?.images?.[0] ? (
           <div
             className="absolute inset-0 bg-cover bg-center opacity-30"
             style={{ backgroundImage: `url('${project.images[0]}')` }}
+          ></div>
+        ) : (
+          <div
+            className="absolute inset-0 opacity-[0.08]"
+            style={{
+              backgroundImage:
+                "linear-gradient(to right, #a855f7 1px, transparent 1px), linear-gradient(to bottom, #a855f7 1px, transparent 1px)",
+              backgroundSize: "32px 32px",
+            }}
           ></div>
         )}
         <div className="absolute inset-0 bg-gradient-to-t from-gray-950 to-transparent"></div>
@@ -89,11 +88,15 @@ export default function ProjectDetails() {
             <div className="flex items-center gap-3 mb-2">
               {params.type === "web" ? (
                 <Code className="w-6 h-6 text-purple-400" />
-              ) : (
+              ) : params.type === "game" ? (
                 <Gamepad2 className="w-6 h-6 text-purple-400" />
+              ) : project.cardStyle === "geometry" ? (
+                <SquareRadical className="w-6 h-6 text-purple-400" />
+              ) : (
+                <Terminal className="w-6 h-6 text-purple-400" />
               )}
               <div className="text-sm uppercase tracking-wider text-purple-300">
-                {params.type === "web" ? "Web Development" : "Game Development"}
+                {params.type === "web" ? "Web Development" : params.type === "game" ? "Game Development" : "Other Project"}
               </div>
             </div>
 
@@ -118,23 +121,42 @@ export default function ProjectDetails() {
             <h2 className="text-2xl font-semibold mb-4">Project Overview</h2>
             <p className="text-gray-300 mb-8 leading-relaxed">{project.fullDescription || project.description}</p>
 
-            <h2 className="text-2xl font-semibold mb-4">Project Gallery</h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
-              {(
-                project.images || ["/placeholder.svg?height=300&width=500", "/placeholder.svg?height=300&width=500"]
-              ).map((image, index) => (
-                <div
-                  key={index}
-                  className="aspect-video bg-gray-800 rounded-lg overflow-hidden border border-purple-500/20"
-                >
-                  <img
-                    src={image || "/placeholder.svg"}
-                    alt={`${project.title} screenshot ${index + 1}`}
-                    className="w-full h-full object-cover"
-                  />
+            {project.images && project.images.length > 0 ? (
+              <>
+                <h2 className="text-2xl font-semibold mb-4">Project Gallery</h2>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
+                  {project.images.map((image, index) => (
+                    <div
+                      key={index}
+                      className="aspect-video bg-gray-800 rounded-lg overflow-hidden border border-purple-500/20"
+                    >
+                      <img
+                        src={image || "/placeholder.svg"}
+                        alt={`${project.title} screenshot ${index + 1}`}
+                        className="w-full h-full object-cover"
+                      />
+                    </div>
+                  ))}
                 </div>
-              ))}
-            </div>
+              </>
+            ) : project.cardStyle ? (
+              <>
+                <h2 className="text-2xl font-semibold mb-4">
+                  {project.cardStyle === "geometry" ? "A solved problem" : "Running it"}
+                </h2>
+                <div className="mb-8 overflow-hidden rounded-2xl bg-[#0a0a0f] ring-1 ring-white/[0.08]">
+                  <div className="relative flex justify-center px-8 py-12">
+                    <div
+                      className="pointer-events-none absolute inset-x-0 top-0 h-64 bg-[radial-gradient(ellipse_at_50%_30%,rgba(139,92,246,0.14),transparent_70%)]"
+                      aria-hidden="true"
+                    />
+                    <div className="relative">
+                      <ShowcaseArt cardStyle={project.cardStyle} />
+                    </div>
+                  </div>
+                </div>
+              </>
+            ) : null}
           </div>
 
           <div>
@@ -162,7 +184,7 @@ export default function ProjectDetails() {
                     className="flex items-center gap-3 text-gray-300 hover:text-purple-400 transition-colors"
                   >
                     <ExternalLink className="w-5 h-5" />
-                    <span>View Live Demo</span>
+                    <span>{project.cardStyle === "geometry" ? "Get it on Google Play" : "View Live Demo"}</span>
                   </a>
                 )}
               </div>
